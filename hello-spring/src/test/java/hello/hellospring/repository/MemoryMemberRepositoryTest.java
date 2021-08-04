@@ -40,7 +40,7 @@ class MemoryMemberRepositoryTest {
         //when
         Member result = repository.findByName("spring1").get();
 
-        // then
+        //then
         assertThat(result).isEqualTo(member1);
     }
 
@@ -58,7 +58,7 @@ class MemoryMemberRepositoryTest {
         //when
         List<Member> result = repository.findAll();
 
-        // then
+        //then
         assertThat(result.size()).isEqualTo(2);
     }
 }
