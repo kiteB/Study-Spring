@@ -16,10 +16,10 @@ public class JpaMain {
 
         try {
             //변경 감지
-            Member member = new Member(200L, "member200");
-            em.persist(member);
+            Member member = em.find(Member.class, 150L);
+            member.setName("AAAA");
 
-            em.flush();
+            em.detach(member);
             System.out.println("====================");
 
             tx.commit();
