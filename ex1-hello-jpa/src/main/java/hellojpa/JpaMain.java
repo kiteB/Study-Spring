@@ -15,28 +15,13 @@ public class JpaMain {
         tx.begin();
 
         try {
-            //등록
-//            Member member = new Member();
-//            member.setId(2L);
-//            member.setName("HelloB");
-//
-//            em.persist(member);
-//
-//            tx.commit();
+            //변경 감지
+            Member member = em.find(Member.class, 150L);
+            member.setName("A");
 
-            //조회
-//            Member findMember = em.find(Member.class, 1L);
-//            System.out.println("findMember.id = " + findMember.getId());
-//            System.out.println("findMember.name = " + findMember.getName());
-//
-//            tx.commit();
-
-            //수정
-            Member findMember = em.find(Member.class, 1L);
-            findMember.setName("HelloJPA");
+            System.out.println("====================");
 
             tx.commit();
-
         } catch (Exception e){
             tx.rollback();
         } finally {
