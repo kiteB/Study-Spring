@@ -20,15 +20,6 @@ public class Member {
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-
     public Long getId() {
         return id;
     }
@@ -45,11 +36,16 @@ public class Member {
         this.username = username;
     }
 
-//    public Long getTeamId() {
-//        return teamId;
-//    }
+    public Team getTeam() {
+        return team;
+    }
 
-//    public void setTeamId(Long teamId) {
-//        this.teamId = teamId;
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+//    public void changeTeam(Team team) {
+//        this.team = team;
+//        team.getMembers().add(this);
 //    }
 }
