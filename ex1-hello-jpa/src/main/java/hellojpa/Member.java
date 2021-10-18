@@ -1,6 +1,9 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Member {
@@ -19,6 +22,14 @@ public class Member {
     @OneToOne
     @JoinColumn(name = "LOCKER_ID")
     private Locker locker;
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberProduct> memberProducts = new ArrayList<>();
+
+    private String createdBy;
+    private LocalDateTime createdDate;
+    private String lastModified;
+    private LocalDateTime lastModifiedDate;
 
     public Long getId() {
         return id;
