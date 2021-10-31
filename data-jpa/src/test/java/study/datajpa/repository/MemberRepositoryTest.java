@@ -27,8 +27,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @Rollback(false)
 class MemberRepositoryTest {
 
-    @Autowired MemberRepository memberRepository;
-    @Autowired TeamRepository teamRepository;
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    TeamRepository teamRepository;
     @PersistenceContext
     EntityManager em;
 
@@ -142,7 +144,7 @@ class MemberRepositoryTest {
         memberRepository.save(m1);
 
         List<MemberDto> memberDto = memberRepository.findMemberDto();
-        for (MemberDto dto: memberDto) {
+        for (MemberDto dto : memberDto) {
             System.out.println("dto = " + dto);
         }
     }
@@ -343,4 +345,31 @@ class MemberRepositoryTest {
         }
     }
 
+    @Test
+    public void nativeQuery() {
+        //given
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
+
+        Member m1 = new Member("m1", 0, teamA);
+        Member m2 = new Member("m2", 0, teamA);
+        em.persist(m1);
+        em.persist(m2);
+
+        em.flush();
+        em.clear();
+
+        //when
+        //JPA 네이티브 SQL
+//        Member result = memberRepository.findByNativeQuery("m1");
+//        System.out.println("result = " + result);
+
+        //Projections 활용
+        Page<MemberProjection> result = memberRepository.findByNativeProjection(PageRequest.of(0, 10));
+        List<MemberProjection> content = result.getContent();
+        for (MemberProjection memberProjection : content) {
+            System.out.println("memberProjection.getUsername() = " + memberProjection.getUsername());
+            System.out.println("memberProjection.getTeamName() = " + memberProjection.getTeamName());
+        }
+    }
 }
