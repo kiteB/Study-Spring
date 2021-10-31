@@ -301,4 +301,46 @@ class MemberRepositoryTest {
     public void callCustom() {
         List<Member> result = memberRepository.findMemberCustom();
     }
+
+    @Test
+    public void projections() {
+        //given
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
+
+        Member m1 = new Member("m1", 0, teamA);
+        Member m2 = new Member("m2", 0, teamA);
+        em.persist(m1);
+        em.persist(m2);
+
+        em.flush();
+        em.clear();
+
+        //when
+        //Projections
+//        List<UsernameOnly> result = memberRepository.findProjectionsByUsername("m1");
+
+//        for (UsernameOnly usernameOnly : result) {
+//            System.out.println("usernameOnly = " + usernameOnly);
+//        }
+
+        //클래스 기반 Projection
+//        List<UsernameOnlyDto> result = memberRepository.findProjectionsByUsername("m1");
+//
+//        for (UsernameOnlyDto usernameOnlyDto : result) {
+//            System.out.println("usernameOnlyDto = " + usernameOnlyDto);
+//        }
+
+        //중첩 구조 처리
+        List<NestedClosedProjection> result = memberRepository.findProjectionsByUsername("m1", NestedClosedProjection.class);
+
+        for (NestedClosedProjection nestedClosedProjection : result) {
+//            System.out.println("nestedClosedProjection = " + nestedClosedProjection);
+            String username = nestedClosedProjection.getUsername();
+            System.out.println("username = " + username);
+            String teamName = nestedClosedProjection.getTeam().getName();
+            System.out.println("teamName = " + teamName);
+        }
+    }
+
 }
