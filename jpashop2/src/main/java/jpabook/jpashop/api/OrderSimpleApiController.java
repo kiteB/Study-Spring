@@ -72,4 +72,18 @@ public class OrderSimpleApiController {
             address = order.getDelivery().getAddress();
         }
     }
+
+    /**
+     * V3. 엔티티를 조회해서 DTO로 변환 (fetch join 사용 O)
+     * - fetch join으로 쿼리 1번 호출
+     */
+    @GetMapping("/api/v3/simple-orders")
+    public List<SimpleOrderDto> orderV3() {
+        List<Order> orders = orderRepository.findAllWithMemberDelivery();
+        List<SimpleOrderDto> result = orders.stream()
+                .map(o -> new SimpleOrderDto(o))
+                .collect(toList());
+        return result;
+    }
+
 }
