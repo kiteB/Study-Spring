@@ -44,6 +44,9 @@ public class OrderApiController {
         return all;
     }
 
+    /**
+     * V2. 엔티티를 DTO로 변환
+     */
     @GetMapping("/api/v2/orders")
     public List<OrderDto> ordersV2() {
         List<Order> orders = orderRepository.findAllByString(new OrderSearch());
@@ -53,6 +56,20 @@ public class OrderApiController {
 
         return collect;
     }
+
+    /**
+     * V3. 엔티티를 DTO로 변환
+     * - 페치 조인 최적화
+     */
+    @GetMapping("/api/v3/orders")
+    public List<OrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithItem();
+        List<OrderDto> result = orders.stream()
+                .map(o -> new OrderDto(o))
+                .collect(toList());
+        return result;
+    }
+
 
     @Getter
     static class OrderDto {
